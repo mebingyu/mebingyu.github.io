@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽变形</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box{
+            width: 200px;
+            height: 200px;
+            background: #00cccc;
+            position: absolute;
+            left: 300px;
+            top: 100px;
+        }
+        #box .l{
+            width: 20px;
+            height: 100%;
+            background: #999999;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #box .t{
+            width: 100%;
+            height: 20px;
+            background: #999999;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #box .r{
+            width: 20px;
+            height: 100%;
+            background: #999999;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        #box .b{
+            width: 100%;
+            height: 20px;
+            background: #999999;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        #box .lt{
+            width: 20px;
+            height: 20px;
+            background: #00cccc;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #box .rt{
+            width: 20px;
+            height: 20px;
+            background: #00cccc;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        #box .lb{
+            width: 20px;
+            height: 20px;
+            background: #00cccc;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        #box .rb{
+            width: 20px;
+            height: 20px;
+            background: #00cccc;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        body{background: url(img/background.jpg);}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBox=document.getElementById('box');
+            var oL=oBox.children[0];
+            var oT=oBox.children[1];
+            var oR=oBox.children[2];
+            var oB=oBox.children[3];
+            var oLt=oBox.children[4];
+            var oRt=oBox.children[5];
+            var oLb=oBox.children[6];
+            var oRb=oBox.children[7];
+            // 右边
+            oR.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var oldW=oBox.offsetWidth;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=oEvent.clientX-downX;
+                    var newW=oldW+targetX;
+                    oBox.style.width=newW+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 下边
+            oB.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var oldH=oBox.offsetHeight;
+                var downY=oEvent.clientY;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetY=oEvent.clientY-downY;
+                    var newH=oldH+targetY;
+                    oBox.style.height=newH+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 左
+            oL.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var oldW=oBox.offsetWidth;
+                var oldL=oBox.offsetLeft;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=downX-oEvent.clientX;
+                    var newL=oldL-targetX;
+                    var newW=oldW+targetX;
+                    oBox.style.width=newW+'px';
+                    oBox.style.left=newL+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 上
+            oT.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downY=oEvent.clientY;
+                var oldH=oBox.offsetHeight;
+                var oldT=oBox.offsetTop;
+
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetY=downY-oEvent.clientY;
+                    var newH=oldH+targetY;
+                    var newT=oldT-targetY;
+
+                    oBox.style.height=newH+'px';
+                    oBox.style.top=newT+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 右下
+            oRb.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var downY=oEvent.clientY;
+                var oldW=oBox.offsetWidth;
+                var oldH=oBox.offsetHeight;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=oEvent.clientX-downX;
+                    var targetY=oEvent.clientY-downY;
+                    var newW=oldW+targetX;
+                    var newH=oldH+targetY;
+                    oBox.style.width=newW+'px';
+                    oBox.style.height=newH+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 左下
+            oLb.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var downY=oEvent.clientY;
+                var oldW=oBox.offsetWidth;
+                var oldH=oBox.offsetHeight;
+                var oldL=oBox.offsetLeft;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=downX-oEvent.clientX;
+                    var targetY=oEvent.clientY-downY;
+                    var newW=oldW+targetX;
+                    var newH=oldH+targetY;
+                    var newL=oldL-targetX;
+                    oBox.style.width=newW+'px';
+                    oBox.style.height=newH+'px';
+                    oBox.style.left=newL+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 右上
+            oRt.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var downY=oEvent.clientY;
+                var oldW=oBox.offsetWidth;
+                var oldH=oBox.offsetHeight;
+                var oldT=oBox.offsetTop;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=oEvent.clientX-downX;
+                    var targetY=downY-oEvent.clientY;
+                    var newW=oldW+targetX;
+                    var newH=oldH+targetY;
+                    var newT=oldT-targetY;
+
+                    oBox.style.width=newW+'px';
+                    oBox.style.height=newH+'px';
+                    oBox.style.top=newT+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+            // 左上
+            oLt.onmousedown=function(ev){
+                var oEvent=ev || event;
+
+                var downX=oEvent.clientX;
+                var downY=oEvent.clientY;
+                var oldW=oBox.offsetWidth;
+                var oldH=oBox.offsetHeight;
+                var oldL=oBox.offsetLeft;
+                var oldT=oBox.offsetTop;
+                document.onmousemove=function(ev){
+                    var oEvent=ev || event;
+
+                    var targetX=downX-oEvent.clientX;
+                    var targetY=downY-oEvent.clientY;
+                    var newW=oldW+targetX;
+                    var newH=oldH+targetY;
+                    var newL=oldL-targetX;
+                    var newT=oldT-targetY;
+
+                    oBox.style.width=newW+'px';
+                    oBox.style.height=newH+'px';
+                    oBox.style.left=newL+'px';
+                    oBox.style.top=newT+'px';
+                };
+                document.onmouseup=function(){
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                };
+                return false;
+            };
+        };
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="l"></div>
+        <div class="t"></div>
+        <div class="r"></div>
+        <div class="b"></div>
+        <div class="lt"></div>
+        <div class="rt"></div>
+        <div class="lb"></div>
+        <div class="rb"></div>
+    </div>
+</body>
+</html>

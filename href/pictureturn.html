@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播点击图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box{
+            width: 600px;
+            height: 400px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        #ul1{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #ul1 li{
+            width: 600px;
+            height: 400px;
+            float: left;
+        }
+        #ul1 li img{
+            width: 600px;
+            height: 400px;
+        }
+        #ol1{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        #ol1 li{
+            width: 30px;
+            height: 30px;
+            background: #2acfff;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        #ol1 li.active{
+            background: #fff;
+        }
+        #box a{
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px;
+            transition: .4s all ease;
+            z-index: 99;
+        }
+        #box a:hover{
+            background: #2acfff;
+        }
+        #left{
+            left: 0;
+        }
+        #right{
+            right: 0;
+        }
+        body{background: url(img/background.jpg);}
+    </style>
+    <script src="js/move.js"></script>
+    <script>
+        window.onload = function () {
+            var oBox=document.getElementById('box');
+            var oUl=document.getElementById('ul1');
+            var oOl=document.getElementById('ol1');
+            var aLi=oUl.children;
+            var aBtn=oOl.children;
+            var oLeft=document.getElementById('left');
+            var oRight=document.getElementById('right');
+
+            var length=aLi.length;
+            // 计算oUl的宽度
+            oUl.innerHTML+=oUl.innerHTML;
+            oUl.style.width=aLi[0].offsetWidth*aLi.length+'px';
+
+            var width=aLi[0].offsetWidth;
+            var iNow=0;
+            var bFlag=false;
+            // 右
+            oRight.onclick=next;
+            // 左
+            oLeft.onclick=prev;
+            function next(){
+                if(bFlag)return;
+                bFlag=true;
+                iNow++;
+
+
+                move(oUl, {left: -width*iNow}, {complete: function(){
+                    bFlag=false;
+                    // 拉到第一张，运动结束给我拉到第一张
+                    if(iNow>length-1){
+                        iNow=0;
+                        oUl.style.left=0;
+                    }
+                }});
+
+                tab();
+            }
+            function prev(){
+                if(bFlag)return;
+                bFlag=true;
+                iNow--;
+
+                if(iNow<0){
+                    iNow=length-1;
+                    oUl.style.left=-width*(iNow+1)+'px';
+                }
+
+                move(oUl, {left: -width*iNow}, {complete: function(){
+                    bFlag=false;
+                }});
+                tab();
+            }
+            function tab(){
+                for(var i=0; i<aBtn.length; i++){
+                    aBtn[i].className='';
+                }
+                aBtn[iNow%aBtn.length].className='active';
+            }
+            // 按钮
+            for(var i=0; i<aBtn.length; i++){
+                aBtn[i].index=i;
+                aBtn[i].onclick=function(){
+                    move(oUl, {left: -this.index*width});
+                    iNow=this.index;
+                    tab();
+                };
+            }
+            var timer;
+            timer=setInterval(next, 1000);
+            oBox.onmouseover=function(){
+                clearInterval(timer);
+            };
+            oBox.onmouseout=function(){
+                timer=setInterval(next, 1000);
+            };
+        };
+    </script>
+</head>
+<body>
+    <div id="box">
+        <a href="javascript:;" id="left">←</a>
+        <a href="javascript:;" id="right">→</a>
+        <ul id="ul1">
+            <li><img src="img/cb2.jpg"></li>
+            <li><img src="img/cb3.jpg"></li>
+            <li><img src="img/cb4.jpg"></li>
+            <li><img src="img/cb7.jpg"></li>
+        </ul>
+        <ol id="ol1">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+</body>
+</html>

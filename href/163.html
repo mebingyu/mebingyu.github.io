@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网易幻灯片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box{
+            width: 400px;
+            height: 300px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        #ul1{
+            width: 1600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #ul1 li{
+            width: 400px;
+            height: 300px;
+            float: left;
+            font-size: 100px;
+            line-height: 300px;
+            text-align: center;
+            color: #fff;
+        }
+        #ol1{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        #ol1 li{
+            width: 80px;
+            height: 20px;
+            background: #ccc;
+            float: left;
+            margin: 10px;
+            position: relative;
+        }
+        #ol1 span{
+            width: 0%;
+            height: 100%;
+            background: #00cccc;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        body{background: url(img/background.jpg);}
+    </style>
+    <script src="js/move.js"></script>
+    <script>
+        window.onload = function () {
+            var oBox=document.getElementById('box');
+            var oUl=document.getElementById('ul1');
+            var oOl=document.getElementById('ol1');
+            var aLi=oUl.children;
+            var aSpan=oOl.getElementsByTagName('span');
+
+            var width=aLi[0].offsetWidth;
+            var iNow=0;
+            function next(){
+                move(aSpan[iNow%aLi.length], {width: 80}, {complete: function(){
+                    iNow++;
+                    move(oUl, {left: -width*(iNow%aLi.length)}, {complete: function(){
+                        for(var i=0; i<aSpan.length; i++){
+                            aSpan[i].style.width=0;
+                        }
+                        next();
+                    }});
+                }});
+            }
+            next();
+        };
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="ul1">
+            <li style="background: url(img/cb1.jpg);"></li>
+            <li style="background: url(img/cb2.jpg);"></li>
+            <li style="background: url(img/cb3.jpg);"></li>
+            <li style="background: url(img/cb4.jpg);"></li>
+        </ul>
+        <ol id="ol1">
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+        </ol>
+    </div>
+</body>
+</html>

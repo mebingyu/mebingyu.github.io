@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瀑布流</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        ul{
+            width: 200px;
+            float: left;
+            border: 1px solid #fff;
+            margin: 20px;
+        }
+        ul li{
+            width: 180px;
+            margin: 10px;
+        }
+        body{background: url(img/background.jpg) fixed;}
+    </style>
+    <script>
+        function rnd(n, m){
+            return parseInt(Math.random()*(m-n))+n;
+        }
+        function createLi(){
+            var oLi=document.createElement('li');
+            oLi.style.height=rnd(100, 300)+'px';
+            oLi.style.background='rgb('+rnd(0,256)+','+rnd(0,256)+','+rnd(0,256)+')';
+            return oLi;
+        }
+        window.onload = function () {
+            var aUl=document.getElementsByTagName('ul');
+
+            function create20(){
+                for(var i=0; i<20; i++){
+                    var oLi=createLi();
+
+                    var arrUl=[];
+                    for(var j=0; j<aUl.length; j++){
+                        arrUl.push(aUl[j]);
+                    }
+                    arrUl.sort(function(n1, n2){
+                        return n1.offsetHeight-n2.offsetHeight;
+                    });
+                    arrUl[0].appendChild(oLi);
+                }
+            }
+            create20();
+
+            window.onscroll=function(){
+                var scrollTop=document.documentElement.scrollTop || document.body.scrollTop;
+                var clientH=document.documentElement.clientHeight;
+                var scrollBottom=scrollTop+clientH;
+
+                if(scrollBottom>=document.body.scrollHeight-300){
+                    create20();
+                }
+            };
+        };
+    </script>
+</head>
+<body>
+<ul></ul>
+<ul></ul>
+<ul></ul>
+</body>
+</html>

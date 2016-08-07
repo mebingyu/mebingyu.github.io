@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手风琴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #ul1{
+            height: 358px;
+            margin: 100px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        #ul1 li{
+            width: 520px;
+            height: 358px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #ul1 img{
+            width: 520px;
+            vertical-align: top;
+        }
+        body{background: url(img/background.jpg);}
+    </style>
+    <script src="js/move.js"></script>
+    <script>
+        window.onload = function () {
+            var oUl=document.getElementById('ul1');
+            var aLi=oUl.children;
+
+            // 布局
+            var W=30;
+            oUl.style.width=aLi[0].offsetWidth+(aLi.length-1)*W+'px';
+            for(var i=1; i<aLi.length; i++){
+                aLi[i].style.left=aLi[0].offsetWidth+(i-1)*W+'px';
+            }
+
+            for(var i=0; i<aLi.length; i++){
+                aLi[i].index=i;
+                aLi[i].onmouseover=function(){
+                    for(var i=1; i<aLi.length; i++){
+                        if(i<=this.index){
+                            move(aLi[i], {left: i*W}, {duration:500});
+                        }else{
+                            move(aLi[i], {left: aLi[0].offsetWidth+(i-1)*W}, {duration:500});
+                        }
+                    }
+                };
+            }
+        };
+    </script>
+</head>
+<body>
+    <ul id="ul1">
+        <li><img src="img/cb1.jpg"></li>
+        <li><img src="img/cb2.jpg"></li>
+        <li><img src="img/cb3.jpg"></li>
+        <li><img src="img/cb4.jpg"></li>
+        <li><img src="img/cb5.jpg"></li>
+        <li><img src="img/cb6.jpg"></li>
+    </ul>
+</body>
+</html>
